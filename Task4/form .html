@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+  <style>
+    #container{    
+    border:1px solid blue;   
+    margin: 30px auto;
+    width:250px;     
+}    
+#reg{
+    text-align: center;
+    margin:auto;
+}
+.tagborder{
+    margin: 5px;
+    background-color: antiquewhite;
+    padding: 10px;
+    border-radius: 5px;
+}
+#nameErr,#mailErr,#mobileErr,#langErr,#subErr{
+    color:red
+}
+  </style>
+
+</head>
+<body onchange="checkValue()">
+    <div id="container">
+        <p id="reg"><b>Registration</b></p>
+        <form name="regform" action="#" method="get" onsubmit="return checkValue()">
+           <div class="tagborder">
+             <label >Enter your name</label><br/>
+             <input type="text" name="name" size="22%"/><br/>
+             <div id="nameErr"></div>
+           </div>
+           <div class="tagborder">
+            <label >Enter your email</label><br/>
+            <input type="email" name="mail" size="22%"/><br/>
+            <div id="mailErr"></div>
+          </div>
+          <div class="tagborder">
+            <label >Enter your mobile</label><br/>
+            <input type="text" name="mobile" size="22%"/><br/>
+            <div id="mobileErr"></div>
+          </div>
+          <div class="tagborder">
+            <label >Select your computer languages</label><br/>
+            <input type="checkbox" name="lang" value="C Lang">C Lang</input>
+            <input type="checkbox" name="lang" value="Java Lang">Java Lang</input>
+            <input type="checkbox" name="lang" value="JavaScript">JS Lang</input>
+            <div id="langErr"></div>
+          </div>
+          <div class="tagborder">
+            <label >Select your subject</label><br/>
+            <select name="sub">
+              <option value="Select">Select</option>
+              <option value="WT">WT</option>
+              <option value="SE">SE</option>
+              <option value="DS">DS</option>
+            </select>
+            <div id="subErr"></div>
+          </div>
+           <div class="tagborder">
+            <input type="submit" value="Send"/>
+           </div>
+           
+        </form>
+    </div>
+    <script>
+        
+function printError(errorID,errorValue){
+    document.getElementById(errorID).innerHTML=errorValue
+  
+}
+function checkValue(){
+    var nameErr=mailErr=mobileErr=langErr=subErr=true
+    var name=document.regform.name.value
+    var mail=document.regform.mail.value
+    var mobile=document.regform.mobile.value
+    var lang=document.getElementsByName("lang")
+    var sub =document.regform.sub.value
+
+    if(sub==="Select"){
+        printError("subErr","*Please select your subject")
+  } else{
+    printError("subErr","")
+    subErr=false
+  }
+    var langChoice=[] 
+    console.log(langChoice)
+    if(lang.length>0)
+    {
+        for(var i=0;i<lang.length;i++){
+            if (lang[i].checked===true){
+                langChoice.push(lang[i].value)
+                langErr=false
+                printError("langErr","") 
+               } 
+        }  
+          
+    } 
+    if(langChoice.length===0){
+        printError("langErr","Select your language choice")
+        langErr=true
+    }
+    
+    if(mobile===""){
+        printError("mobileErr","*Please enter mobile number")
+  } else{
+     var regex=/^[6-9]\d{9}$/
+     if (regex.test(mobile)===false){
+      printError("mobileErr","*Please enter valid mobile")
+     } else {
+      printError("mobileErr","")
+      mobileErr=false
+     }
+
+  }
+    if(mail===""){
+        printError("mailErr","*Please enter mail")
+  } else{
+     var regex=/^\S+@\S+\.\S+$/
+     if (regex.test(mail)===false){
+      printError("mailErr","*Please enter valid mail")
+     } else {
+      printError("mailErr","")
+      nameErr=false
+     }
+
+  }
+    if(name===""){
+          printError("nameErr","*Please enter name")
+    } else{
+       var regex=/^[a-zA-Z\s]+$/
+       if (regex.test(name)===false){
+        printError("nameErr","*Please enter valid name")
+       } else {
+        printError("nameErr","")
+        mailErr=false
+       }
+
+    }
+    if ((nameErr||mailErr||mobileErr||langErr)===true){
+        return false
+    } else {
+        var data;
+        data ="You enter name="+name+"\n";
+        data+="You enter email="+mail+"\n";
+        data+="You enter mobile="+mobile+"\n";
+        data+="Your lang choice are="+langChoice.join(",")+"\n";
+        data+="Your subject is="+sub+"\n";
+        alert(data);
+        return true
+    }
+}
+    </script>
+</body>
+</html>
